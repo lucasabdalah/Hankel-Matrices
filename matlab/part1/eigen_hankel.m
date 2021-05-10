@@ -30,9 +30,8 @@ for i = 1:num_dw
         s = svd(V*V.');    % SVD of associated Hankel matrix
         
         cond_num(i, j) = abs(s(1)/s(2));
-        
     end
-
+    
 end
 
 % plot results
@@ -41,14 +40,14 @@ for i = 1:num_dw
     semilogy(N, cond_num(i, :)); hold on
 end
 grid; axis tight;
-% set(gca, 'FontSize', 12)
+% set(gca, 'FontSize', 14)
 xlabel('sample size, N');
 ylabel('condition number');
 legend(leg)
 
 %% conditionNumber - Export Result Figure
-savefigPath = 'C:\Users\lukin\Documents\GitHub\Hankel-Matrices\matlab\fig';
-outNamePDF = 'eigen_hankel-conditionNumber';
-datetimestamp = datestr(now, 'yyyy-mm-dd');
-outfilename = strjoin({[savefigPath '\' outNamePDF '-' datetimestamp]});
-savefig_tight(h,outfilename);
+% savefigPath = 'C:\Users\lukin\Documents\GitHub\Hankel-Matrices\matlab\fig';
+% outNamePDF = 'eigen_hankel-conditionNumber';
+% datetimestamp = datestr(now, 'yyyy-mm-dd');
+% outfilename = strjoin({[savefigPath '\' outNamePDF '-' datetimestamp]});
+% savefig_tight(h,outfilename);

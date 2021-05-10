@@ -1,4 +1,4 @@
-%% Computes the rank of an all-pole signal mapped into a Hankel matrix, plot
+%% Computes the rank of an all-pole signal mapped into a Hankel matrix with various vector length.
 %
 %
 %HISTORY:
