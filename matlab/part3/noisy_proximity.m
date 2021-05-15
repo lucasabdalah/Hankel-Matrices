@@ -72,26 +72,30 @@ end
 %% Plot results - SNR = 310
 h = figure;
 subplot(2,1,1)
-hold on
 myColor = {[0 0.4470 0.7410],[0.8500 0.3250 0.0980], [0.9290 0.6940 0.1250], [0.4940 0.1840 0.5560], [0.4660 0.6740 0.1880], [0.3010 0.7450 0.9330], [0.6350 0.0780 0.1840]};
 
 myLineStyle = {'--','-',':','-.'};
 myMarker = {'o', 'square', '^', 'x'};
 for ii = 1:1:length(itPoles)
     semilogx(wAll,hankelSample(ii,:),...
-        'Color', myColor{ii},...        
-        'LineStyle', myLineStyle{rem(ii,4)+1},...
-        'LineWidth',1.0,...
-        'Marker',myMarker{rem(ii,4)+1},...
-        'MarkerFaceColor', myColor{ii},...
-        'MarkerSize', 3);
+    'Color', myColor{ii},...        
+    'LineStyle', myLineStyle{rem(ii,4)+1},...
+    'LineWidth',1.0,...
+    'Marker',myMarker{rem(ii,4)+1},...
+    'MarkerFaceColor', myColor{ii},...
+    'MarkerSize', 3);
+    hold on
 end
 hold off
 xlabel('\Delta\omega (\times \pi radians/samples)');
-ylabel('N (Sample size)');
-ylim([0 80])
-% legend(leg,'Location', 'bestoutside') % legend(leg,'Location', 'Best')
+ylabel('Sample size, N');
+ylim([0 100])
+xticks([logspace(-4,-1,4)]);
+% ylim([0 150]);
+% legend(leg,'Location', 'northwest');
+hold off
 grid
+set(gca,'Xscale','log')
 
 %% Main algorithm 2
 for ii = 1:1:length(itPoles)
@@ -135,7 +139,6 @@ end
 
 %% Plot results - SNR = 50
 subplot(2,1,2)
-hold on
 myColor = {[0 0.4470 0.7410],[0.8500 0.3250 0.0980], [0.9290 0.6940 0.1250], [0.4940 0.1840 0.5560], [0.4660 0.6740 0.1880], [0.3010 0.7450 0.9330], [0.6350 0.0780 0.1840]};
 
 myLineStyle = {'--','-',':','-.'};
@@ -148,22 +151,24 @@ for ii = 1:1:length(itPoles)
         'Marker',myMarker{rem(ii,4)+1},...
         'MarkerFaceColor', myColor{ii},...
         'MarkerSize', 3);
+    hold on
 end
 hold off
 xlabel('\Delta\omega (\times \pi radians/samples)');
-ylabel('N (Sample size)');
+ylabel('Sample size, N');
 ylim([0 20]);
 yticks([0:5:20]);
 legend(leg,'Location', 'northeastoutside','Orientation', 'Vertical');
+xticks([logspace(-4,-1,4)]);
 % lgd = legend(leg,'Location', 'northeastoutside','Orientation', 'Vertical','Position', [0.95 0. 0.0 1], 'Units','normalized');
 lgd = legend(leg,'Location', 'northeastoutside','Orientation', 'Horizontal','Position', [0.5 0.47 0.0 1], 'Units','normalized');
 legend boxoff
 grid
-
+set(gca,'Xscale','log')
 
 %% Hankel samples (rank = poles) in a noisy scenario - Export Result Figure
 savefigPath = 'C:\Users\lukin\Documents\GitHub\Hankel-Matrices\matlab\fig';
-outNamePDF = 'noisy_proximity-PoleDistance_vs_Samples4';
+outNamePDF = 'noisy_proximity-PoleDistance_vs_Samples_Version2';
 datetimestamp = datestr(now, 'yyyy-mm-dd');
 outfilename = strjoin({[savefigPath '\' outNamePDF '-' datetimestamp]});
 savefig_tight(h,outfilename);

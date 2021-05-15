@@ -18,19 +18,19 @@ N = 1e2;        % Length of signal
 t = (0:N-1)*T;  % Time vector
 
 %% Poles setup
-itPoles = 2:1:8;    % Number of poles 
+L = 2:1:8;    % Number of poles 
 spacings = 100;     % Space between poles
 wAll = logspace(-4,-1,spacings);
 
 %% Info storing
-hankelSample = zeros(length(itPoles),length(wAll)); % Store the number of samples to build a Hankel matrice with rank = number of poles
-LHsAll = zeros(length(itPoles),length(wAll));       % Store rank LHs Hankel
+hankelSample = zeros(length(L),length(wAll)); % Store the number of samples to build a Hankel matrice with rank = number of poles
+LHsAll = zeros(length(L),length(wAll));       % Store rank LHs Hankel
 fail2Compute = 1; % Store the number of fails to compute rank = Nexp
 
 %% Main algorithm
-for ii = 1:1:length(itPoles)
+for ii = 1:1:length(L)
     
-    Nexp = itPoles(ii); % Number of exponential
+    Nexp = L(ii); % Number of exponential
     fprintf(['.............. Rank => ', num2str(Nexp),'..............\n']) 
     
     for jj = 1:1:length(wAll)
@@ -69,37 +69,42 @@ end
 
 %% Plot results
 h = figure;
-hold on
+
 myColor = {[0 0.4470 0.7410],[0.8500 0.3250 0.0980], [0.9290 0.6940 0.1250], [0.4940 0.1840 0.5560], [0.4660 0.6740 0.1880], [0.3010 0.7450 0.9330], [0.6350 0.0780 0.1840]};
 
-myLineStyle = {'--','-',':','-.'};
+myLineStyle = {'--','-',':'};
 myMarker = {'o', 'square', '^', 'x'};
-for ii = 1:1:length(itPoles)
-    semilogx(wAll,hankelSample(ii,:),...
+for ii = 1:1:length(L)
+    hPlot(ii) = semilogx(wAll,hankelSample(ii,:),...
         'Color', myColor{ii},...        
-        'LineStyle', myLineStyle{rem(ii,4)+1},...
         'LineWidth',1.0,...
-        'Marker',myMarker{rem(ii,4)+1},...
+        'LineStyle', myLineStyle{rem(ii,3)+1},...
+        'Marker',myMarker{rem(ii,3)+1},...
         'MarkerFaceColor', myColor{ii},...
         'MarkerSize', 3);
-    % if ii > 5
-    % line([min(wAll) max(wAll)], (2*itPoles(ii)-1)*[1 1],...
-    %     'Color', [0.1 0.1 0.1],...
-    %     'LineStyle','--',...
-    %     'HandleVisibility','off');
-    % end
+    hold on
 end
-hold off
-xlabel('\Delta\omega (\times \pi radians/samples)');
-ylabel('N (Sample size)');
-ylim([0 80])
-legend(leg) % legend(leg,'Location', 'Best')
-legend boxoff
-grid
+%% Graphic Test
+% for ii = 1:1:length(L)
+%     hPlot(ii) = scatter(wAll,hankelSample(ii,:),'fill');
+%     hold on
+% end
 
+xlabel('\Delta\omega (\times \pi radians/samples)');
+ylabel('Sample size, N');
+yticks([2*L-1,20:5:50])
+ylim([0 50])
+legend(leg,'Location', 'northwest') 
+xticks([logspace(-4,-1,4)]);
+% ylim([0 150]);
+% legend(leg,'Location', 'northwest');
+legend boxoff
+grid on
+hold off
+set(gca,'Xscale','log');
 %% Hankel samples (rank = poles) - Export Result Figure
 savefigPath = 'C:\Users\lukin\Documents\GitHub\Hankel-Matrices\matlab\fig';
 outNamePDF = 'poles_proximity-PoleDistance_vs_Samples';
 datetimestamp = datestr(now, 'yyyy-mm-dd');
 outfilename = strjoin({[savefigPath '\' outNamePDF '-' datetimestamp]});
-savefig_tight(h,outfilename);
+% savefig_tight(h,outfilename);
