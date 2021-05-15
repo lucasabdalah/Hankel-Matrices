@@ -68,13 +68,14 @@ hold off
 xlabel('N (Sample size)');
 ylabel('\sigma (Condition number)');
 legend(leg) % legend(leg,'Location', 'Best')
+legend boxoff
 grid; axis tight;
 ylim([0.5 1e8])
 
 
 %% conditionNumber - Export Result Figure
 savefigPath = 'C:\Users\lukin\Documents\GitHub\Hankel-Matrices\matlab\fig';
-outNamePDF = 'eigen_hankel-conditionNumber2';
+outNamePDF = 'eigen_hankel-conditionNumber3';
 datetimestamp = datestr(now, 'yyyy-mm-dd');
 outfilename = strjoin({[savefigPath '\' outNamePDF '-' datetimestamp]});
 savefig_tight(h,outfilename);

@@ -94,6 +94,7 @@ xlabel('\Delta\omega (\times \pi radians/samples)');
 ylabel('N (Sample size)');
 ylim([0 80])
 legend(leg) % legend(leg,'Location', 'Best')
+legend boxoff
 grid
 
 %% Hankel samples (rank = poles) - Export Result Figure
