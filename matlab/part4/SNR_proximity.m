@@ -22,7 +22,7 @@ t = (0:N-1)*T;  % Time vector
 L = 2:1:8;  % Number of poles
 wn = 5e-2;   % For a fixed omega instead -> wAll = logspace(-4,-1,spacings);
 %% Noise values
-SNRnoise = 10:5:350;
+SNRnoise = 250:1:320;
 %% Monte Carlo Scenario
 Nrun = 100;
 yRMC = zeros(Nrun,length(L),length(SNRnoise));
@@ -87,16 +87,16 @@ for rmc = 1:1:Nrun
 end
 
 %% Monte Carlo - elapsed time 
-tEnd = toc(tStart);
+tEnd = toc(tStart); tEnd = seconds(tEnd); tEnd.Format = 'hh:mm:ss'; tEnd = char(tEnd); % Num -> Duration -> Str
 fprintf('|%d rmc, %d poles, %d SNRs| \n',Nrun, length(L),length(SNRnoise))
-fprintf('---> elapsed time: %.2f s <---\n',tEnd)
+fprintf(['---> elapsed time: ', tEnd, ' <---\n']);
 
 %% Mean for the Monte Carlo Samples
 yRMC = (mean(yRMC,1));
 yRMC = squeeze(yRMC);
 
 %% For all SNR 
-hFigure = figure;
+h = figure;
 myColor = {[0 0.4470 0.7410],[0.8500 0.3250 0.0980], [0.9290 0.6940 0.1250], [0.4940 0.1840 0.5560],...
 [0.4660 0.6740 0.1880], [0.3010 0.7450 0.9330], [0.6350 0.0780 0.1840]};
 
@@ -125,7 +125,7 @@ savefigPath = 'C:\Users\lukin\Documents\GitHub\Hankel-Matrices\matlab\fig';
 outNamePDF = ['SNR_proximity-MonteCarlo-with-',num2str(Nrun),'runs-'];
 datetimestamp = datestr(now, 'yyyy-mm-dd');
 outfilename = strjoin({[savefigPath '\' outNamePDF '-' datetimestamp]});
-% savefig_tight(h,outfilename);
+savefig_tight(h,outfilename);
 
 %% Save the Monte Carlo Run 
 save([outNamePDF,datetimestamp],'N','L','SNRnoise','yRMC','leg');
